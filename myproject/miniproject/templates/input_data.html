@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Diabetes</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Diabetes Diagnosis</h1>
+      <form method="post">
+        <div class="nice-form-group">
+          {% csrf_token %}
+          <!-- {{ form.as_p }} -->
+          {% for field in form %}
+          <div class="nice-form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }} {% if field.errors %}
+            <div class="errors">
+              {% for error in field.errors %}
+              <span class="error-message">{{ error }}</span>
+              {% endfor %}
+            </div>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+        {% if messages %}
+        <div class="messages">
+          {% for message in messages %}
+          <div
+            class="message {% if message.tags %}{{ message.tags }}{% endif %}"
+          >
+            {{ message }}
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+        <button type="submit">Submit</button>
+      </form>
+      <!-- ------------------------------------------------- -->
+      <!-- {% if form.errors %}
+      <div class="errors">
+        <h3>Please correct the errors below:</h3>
+        <ul>
+          {% for field in form %} {% for error in field.errors %}
+          <li>{{ field.label }}: {{ error }}</li>
+          {% endfor %} {% endfor %}
+        </ul>
+      </div>
+      {% endif %} -->
+
+      <!-- ----------------------------------- -->
+      <!-- {% if messages %}
+      <div id="toast-container">
+        {% for message in messages %}
+        <div class="toast {{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+      {% endif %}
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          const toastElements = document.querySelectorAll(".toast");
+          toastElements.forEach((toast) => {
+            setTimeout(() => {
+              toast.classList.add("hide");
+            }, 10000); // Hide after 3 seconds
+          });
+        });
+      </script> -->
+    </div>
+  </body>
+</html>
